@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MyLastCamm</string>
+    <string name="exposure">Exposure</string>
+
+    <string name="sensitivity">Sensitivity</string>
+    <string name="todo">TODO</string>
+    <string name="_0">0</string>
+</resources>
