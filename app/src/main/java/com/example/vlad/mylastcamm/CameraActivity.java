@@ -27,83 +27,41 @@ import android.hardware.camera2.CameraManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ImageButton;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
+import android.widget.Toast;
+import android.widget.Spinner;
+
+
+import java.util.ArrayList;
 
 import static android.hardware.camera2.CameraMetadata.LENS_FACING_BACK;
 
-class CameraSeekBar {
-    int _progress;
-    long _min, _max, _absVal;
-    SeekBar _seekBar;
-    TextView _sliderPrompt;
-    CameraSeekBar() {
-        _progress = 0;
-        _min = _max = _absVal  = 0;
-    }
 
-    CameraSeekBar(SeekBar seekBar, TextView textView, long min, long max, long val) {
-        _seekBar = seekBar;
-        _sliderPrompt = textView;
-        _min = min;
-        _max = max;
-        _absVal = val;
-
-        if(_min != _max) {
-            _progress = (int) ((_absVal - _min) * _seekBar.getMax() / (_max - _min));
-            seekBar.setProgress(_progress);
-            updateProgress(_progress);
-        } else {
-            _progress = 0;
-            seekBar.setEnabled(false);
-        }
-    }
-
-    public boolean isSupported() {
-        return (_min != _max);
-    }
-    public void updateProgress(int progress) {
-        if (!isSupported())
-            return;
-
-        _progress = progress;
-        _absVal = (progress * ( _max - _min )) / _seekBar.getMax() + _min;
-        int val = (progress * (_seekBar.getWidth() - 2 * _seekBar.getThumbOffset())) / _seekBar.getMax();
-        _sliderPrompt.setText("" + _absVal);
-        _sliderPrompt.setX(_seekBar.getX() + val + _seekBar.getThumbOffset() / 2);
-    }
-    public int getProgress() {
-        return _progress;
-    }
-    public void updateAbsProgress(long val) {
-        if (!isSupported())
-            return;
-        int progress = (int)((val - _min) * _seekBar.getMax() / (_max - _min));
-        updateProgress(progress);
-    }
-    public long getAbsProgress() {
-        return _absVal;
-    }
-}
 
 public class CameraActivity extends NativeActivity
         implements ActivityCompat.OnRequestPermissionsResultCallback {
     volatile CameraActivity _savedInstance;
+
+
+    private ArrayList<SpinnerItem> mSpinnerList;
+    private SpinnerAdapter mAdapter;
+
+
     PopupWindow _popupWindow;
     ImageButton _takePhoto;
     CameraSeekBar _exposure, _sensitivity;
     long[] _initParams;
+
+   // Spinner spinner = (Spinner) findViewById(R.id.mySpinner);
+
+   // Spinner spinner = (Spinner) findViewById(R.id.mySpinner );
+    //String selected = spinner.getSelectedItem().toString();
+    //Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
 
     private final String DBG_TAG = "NDK-CAMERA-BASIC";
     @Override
@@ -113,17 +71,54 @@ public class CameraActivity extends NativeActivity
         // new initialization here... request for permission
         _savedInstance  = this;
 
-        setImmersiveSticky();
-        View decorView = getWindow().getDecorView();
-        decorView.setOnSystemUiVisibilityChangeListener
-                (new View.OnSystemUiVisibilityChangeListener() {
-                    @Override
-                    public void onSystemUiVisibilityChange(int visibility) {
-                        setImmersiveSticky();
-                    }
-                });
+        // Spinner
+
+        Spinner spinner = (Spinner) findViewById(R.id.mySpinner);
+        if (spinner !=null) {
+            String selected = spinner.getSelectedItem().toString();
+        }
+      //  Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
+
+        // Spinner spinnerMetrics = findViewById(R.id.mySpinner);
+         //mAdapter = new SpinnerAdapter(this, mSpinnerList);
+        // spinnerMetrics.setAdapter(mAdapter);
+    /*
+         spinnerMetrics.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+             @Override
+             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                 SpinnerItem clickedItem =((SpinnerItem) parent.getItemAtPosition(position));
+                 String clickedName = clickedItem.getmMetricsName();
+                 Toast.makeText(CameraActivity.this,clickedName + " selected", Toast.LENGTH_SHORT).show();
+             }
+
+             @Override
+             public void onNothingSelected(AdapterView<?> parent) {
+
+             }
+         });*/
+
+
+
+
+            setImmersiveSticky();
+            View decorView = getWindow().getDecorView();
+            decorView.setOnSystemUiVisibilityChangeListener
+                    (new View.OnSystemUiVisibilityChangeListener() {
+                        @Override
+                        public void onSystemUiVisibilityChange(int visibility) {
+                            setImmersiveSticky();
+                        }
+                    });
     }
 
+/*
+    private Void initList(){
+        mSpinnerList = new ArrayList<>();
+        mSpinnerList =   findViewById(R.array.metrics);
+
+
+    }
+*/
     private boolean isCamera2Device() {
         CameraManager camMgr = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
         boolean camera2Dev = true;

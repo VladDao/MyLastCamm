@@ -1,8 +1,22 @@
 <resources>
+    <string-array name="metrics">
+            <item>None</item>
+            <item>I-PSNR</item>
+            <item>I-WSNR</item>
+            <item>I-PSNR-HVS-M</item>
+            <item>I-MS-SSIM</item>
+            <item>I-GMSD</item>
+            <item>I-IW-SSIM</item>
+            <item>I-ADD-SSIM</item>
+            <item>I-GSM</item>
+            <item>I-Haar-PSI</item>
+    </string-array>>
+
     <string name="app_name">MyLastCamm</string>
     <string name="exposure">Exposure</string>
 
     <string name="sensitivity">Sensitivity</string>
     <string name="todo">TODO</string>
     <string name="_0">0</string>
+    <string name="metrics">Metrics</string>
 </resources>
