@@ -47,9 +47,10 @@ public class CameraActivity extends NativeActivity
         implements ActivityCompat.OnRequestPermissionsResultCallback {
     volatile CameraActivity _savedInstance;
 
+    Spinner spinner;
+    TextView calculateResult;
+    String selected;
 
-    private ArrayList<SpinnerItem> mSpinnerList;
-    private SpinnerAdapter mAdapter;
 
 
     PopupWindow _popupWindow;
@@ -73,10 +74,10 @@ public class CameraActivity extends NativeActivity
 
         // Spinner
 
-        Spinner spinner = (Spinner) findViewById(R.id.mySpinner);
-        if (spinner !=null) {
-            String selected = spinner.getSelectedItem().toString();
-        }
+       // Spinner spinner = (Spinner) findViewById(R.id.mySpinner);
+   //     if (spinner !=null) {
+          //  String selected = spinner.getSelectedItem().toString();
+       // }
       //  Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
 
         // Spinner spinnerMetrics = findViewById(R.id.mySpinner);
@@ -219,7 +220,7 @@ public class CameraActivity extends NativeActivity
             return;
         }
 
-        Assert.assertEquals(grantResults.length, 2);
+      //  Assert.assertEquals(grantResults.length, 2);
         notifyCameraPermission(grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                 grantResults[1] == PackageManager.PERMISSION_GRANTED);
     }
@@ -276,6 +277,36 @@ public class CameraActivity extends NativeActivity
                     _takePhoto.setEnabled(true);
                     (popupView.findViewById(R.id.exposureLabel)).setEnabled(true);
                     (popupView.findViewById(R.id.sensitivityLabel)).setEnabled(true);
+                    (popupView.findViewById(R.id.mySpinner)).setEnabled(true);
+
+                    //Spinner
+
+                    spinner = (Spinner)popupView.findViewById(R.id.mySpinner);
+                   // spinner =(Spinner) findViewById(R.id.mySpinner);
+
+
+                    calculateResult = ((TextView) popupView.findViewById(R.id.sample_text));
+
+
+
+                   // selected = spinner.getSelectedItem().toString();
+                     //Toast.makeText(getApplicationContext(), selected , Toast.LENGTH_SHORT).show();
+                    if(spinner != null){
+                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                         @Override
+                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                             long selectedItem = parent.getItemIdAtPosition(position);
+                             //Toast.makeText(getApplicationContext(),selectedItem, Toast.LENGTH_SHORT).show();
+
+                             metricsSelected((int) selectedItem);
+                             calculateResult.setText(stringFromJNI());
+                         }
+
+                         @Override
+                         public void onNothingSelected(AdapterView<?> parent) {
+
+                         }
+                     });}
 
                     SeekBar seekBar = (SeekBar) popupView.findViewById(R.id.exposure_seekbar);
                     _exposure = new CameraSeekBar(seekBar,
@@ -315,6 +346,9 @@ public class CameraActivity extends NativeActivity
                         public void onStopTrackingTouch(SeekBar seekBar) {
                         }
                     });
+
+
+
                 } catch (WindowManager.BadTokenException e) {
                     // UI error out, ignore and continue
                     Log.e(DBG_TAG, "UI Exception Happened: " + e.getMessage());
@@ -335,10 +369,13 @@ public class CameraActivity extends NativeActivity
         });
     }
 
+    native static void metricsSelected(int metrics);
+
     native static void notifyCameraPermission(boolean granted);
     native static void TakePhoto();
     native void OnExposureChanged(long exposure);
     native void OnSensitivityChanged(long sensitivity);
+    public native String stringFromJNI();
 
     static {
         System.loadLibrary("ndk_camera");

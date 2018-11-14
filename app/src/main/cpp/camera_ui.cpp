@@ -4,6 +4,7 @@
 
 #include "camera_engine.h"
 #include "native_debug.h"
+#include "image_processing.h"
 //#include <native_debug.h>
 
 /**
@@ -140,4 +141,20 @@ Java_com_example_vlad_mylastcamm_CameraActivity_OnSensitivityChanged(
         JNIEnv *env, jobject instance, jlong sensitivity) {
     GetAppEngine()->OnCameraParameterChanged(ACAMERA_SENSOR_SENSITIVITY,
                                              sensitivity);
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_vlad_mylastcamm_CameraActivity_metricsSelected(JNIEnv *env, jclass type, jint choiceMetrics) {
+    Image_processing::Metrics(choiceMetrics);
+
+
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_example_vlad_mylastcamm_CameraActivity_stringFromJNI(
+        JNIEnv *env,
+        jobject /* this */) {
+    std::string hello = Image_processing::State();
+    //std::string hello = "Hello from C++";
+    return env->NewStringUTF(hello.c_str());
 }

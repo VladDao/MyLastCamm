@@ -1,5 +1,6 @@
-//#include "camera_engine.h"
-//#include "utils/native_debug.h"
+//
+// Created by vlad on 11/14/18.
+//
 
 #include <camera/NdkCameraCaptureSession.h>
 
@@ -56,12 +57,12 @@ JNIEXPORT void JNICALL Java_com_example_vlad_mylastcamm_MainActivity_stopPreview
                                                                                  jobject instance);
 JNIEXPORT void JNICALL Java_com_example_vlad_mylastcamm_MainActivity_startPreview(JNIEnv *env,
                                                                                   jobject instance,
-                                                                                     jobject surface);
+                                                                                  jobject surface);
 JNIEXPORT void JNICALL Java_com_example_vlad_mylastcamm_MainActivity_stopExtraView(JNIEnv *env,
                                                                                    jobject instance);
 JNIEXPORT void JNICALL Java_com_example_vlad_mylastcamm_MainActivity_startExtraView(JNIEnv *env,
                                                                                     jobject instance,
-                                                                                     jobject surface);
+                                                                                    jobject surface);
 }
 
 static void openCamera(ACameraDevice_request_template templateId)
@@ -162,7 +163,7 @@ static void closeCamera(void)
 
 JNIEXPORT void JNICALL Java_com_example_vlad_mylastcamm_MainActivity_startPreview(JNIEnv *env,
                                                                                   jobject instance,
-                                                                                     jobject surface) {
+                                                                                  jobject surface) {
     theNativeWindow = ANativeWindow_fromSurface(env, surface);
 
     openCamera(TEMPLATE_PREVIEW);
@@ -198,7 +199,7 @@ static ACaptureSessionOutput *extraViewSessionOutput;
 
 JNIEXPORT void JNICALL Java_com_example_vlad_mylastcamm_MainActivity_startExtraView(JNIEnv *env,
                                                                                     jobject instance,
-                                                                                       jobject surface) {
+                                                                                    jobject surface) {
 
     /* Assuming that camera preview has already been started */
     extraViewWindow = ANativeWindow_fromSurface(env, surface);
