@@ -49,7 +49,6 @@ public class CameraActivity extends NativeActivity
 
     Spinner spinner;
     TextView calculateResult;
-    String selected;
 
 
 
@@ -58,45 +57,16 @@ public class CameraActivity extends NativeActivity
     CameraSeekBar _exposure, _sensitivity;
     long[] _initParams;
 
-   // Spinner spinner = (Spinner) findViewById(R.id.mySpinner);
 
-   // Spinner spinner = (Spinner) findViewById(R.id.mySpinner );
-    //String selected = spinner.getSelectedItem().toString();
-    //Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
 
     private final String DBG_TAG = "NDK-CAMERA-BASIC";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(DBG_TAG, "OnCreate()");
-        // new initialization here... request for permission
+
         _savedInstance  = this;
 
-        // Spinner
-
-       // Spinner spinner = (Spinner) findViewById(R.id.mySpinner);
-   //     if (spinner !=null) {
-          //  String selected = spinner.getSelectedItem().toString();
-       // }
-      //  Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
-
-        // Spinner spinnerMetrics = findViewById(R.id.mySpinner);
-         //mAdapter = new SpinnerAdapter(this, mSpinnerList);
-        // spinnerMetrics.setAdapter(mAdapter);
-    /*
-         spinnerMetrics.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-             @Override
-             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                 SpinnerItem clickedItem =((SpinnerItem) parent.getItemAtPosition(position));
-                 String clickedName = clickedItem.getmMetricsName();
-                 Toast.makeText(CameraActivity.this,clickedName + " selected", Toast.LENGTH_SHORT).show();
-             }
-
-             @Override
-             public void onNothingSelected(AdapterView<?> parent) {
-
-             }
-         });*/
 
 
 
@@ -112,14 +82,7 @@ public class CameraActivity extends NativeActivity
                     });
     }
 
-/*
-    private Void initList(){
-        mSpinnerList = new ArrayList<>();
-        mSpinnerList =   findViewById(R.array.metrics);
 
-
-    }
-*/
     private boolean isCamera2Device() {
         CameraManager camMgr = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
         boolean camera2Dev = true;
